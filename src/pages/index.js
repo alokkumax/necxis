@@ -8,30 +8,12 @@ export default function Home() {
 
   const handleSignIn = async () => {
     try {
-      // Optional: Ensure persistence before sign-in
-      await setPersistence(auth, indexedDBLocalPersistence);
-  
-      // Try popup sign-in first
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
     } catch (error) {
       console.error("Google Sign-In Error:", error);
-  
-      // Fallback to redirect if popup fails due to browser restrictions
-      if (
-        error.code === 'auth/popup-blocked' ||
-        error.code === 'auth/popup-closed-by-user' ||
-        error.code === 'auth/operation-not-supported-in-this-environment'
-      ) {
-        try {
-          await signInWithRedirect(auth, provider);
-        } catch (redirectError) {
-          console.error('Redirect Sign-In Failed:', redirectError);
-        }
-      }
     }
   };
-  
   
 
   return (
